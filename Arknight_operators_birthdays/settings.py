@@ -12,6 +12,8 @@ BOT_NAME = 'Ark_birthdays'
 SPIDER_MODULES = ['Arknight_operators_birthdays.spiders']
 NEWSPIDER_MODULE = 'Arknight_operators_birthdays.spiders'
 
+FEED_EXPORT_ENCODING = 'utf-8'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # 设置UA
@@ -63,9 +65,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'Arknight_operators_birthdays.pipelines.ArknightOperatorsBirthdaysPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'Arknight_operators_birthdays.pipelines.ArknightOperatorsBirthdaysPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

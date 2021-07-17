@@ -4,7 +4,7 @@ import json
 
 
 def save_data():
-    with open('Arknight_operators_birthdays/ark.json', 'r') as data:
+    with open('Arknight_operators_birthdays/arknights.json', 'r') as data:
         # 将json文件读取成python对象
         operators_list = json.load(data)
 

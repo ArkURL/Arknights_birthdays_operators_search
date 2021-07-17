@@ -6,7 +6,7 @@ with open('data.pik', 'rb') as f:
     operators_list = pickle.load(f)
 '''
 
-with open('Arknight_operators_birthdays/ark.json', 'r') as f:
+with open('Arknight_operators_birthdays/arknights.json', 'r', encoding='utf-8') as f:
     operators_list = json.load(f)
 
 
