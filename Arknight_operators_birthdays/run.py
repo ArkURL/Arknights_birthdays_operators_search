@@ -1,3 +1,9 @@
 from scrapy import cmdline
 
-cmdline.execute("scrapy crawl Ark".split())
+
+def run():
+    cmdline.execute("scrapy crawl Ark".split())
+
+
+if __name__ == '__main__':
+    run()

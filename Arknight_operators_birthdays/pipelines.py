@@ -10,22 +10,22 @@ from scrapy.exporters import JsonItemExporter
 
 
 class ArknightOperatorsBirthdaysPipeline:
-    #
+    #   自己创建的方法
     def __init__(self):
-        self.file = open('arknights.json', 'wb')
+        self.file = open('../arknights.json', 'wb')
         self.exporter = JsonItemExporter(self.file, ensure_ascii=False, encoding='utf-8')
         self.exporter.start_exporting()
 
-    #
+    #   自己创建的方法，启动spider时调用
     def open_spider(self, spider):
         print("spider启动")
 
-    # spider
+    #  默认生成的方法，用于处理信息
     def process_item(self, item, spider):
         self.exporter.export_item(item)
         return item
 
-    #
+    #   自己创建的方法，关闭spider时调用
     def close_spider(self, spider):
         self.exporter.finish_exporting()
         self.file.close()
