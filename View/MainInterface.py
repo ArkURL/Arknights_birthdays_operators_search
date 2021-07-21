@@ -7,10 +7,14 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QPushButton, QLa
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from pathlib import Path
+# import threading
+# from scrapy.utils.project import get_project_settings
+# from scrapy.crawler import CrawlerProcess
+from multiprocessing import Process
 
 from search_from_operators import SearchOperatorsBirthdays
 from search_from_date import SearchFromDate
-from crawl_done_dialog import CrawlDoneDialog
+from show_all_operatos_panel import ShowALLOperatorsListPanel
 
 import Arknight_operators_birthdays.run as run
 
@@ -67,8 +71,13 @@ class MainInterface(QWidget):
         if not arkjson.is_file():
             self.search_operators_according_to_day_button.setEnabled(False)
 
-
         layout.addWidget(self.search_operators_according_to_day_button)
+
+        # 添加显示干员按钮
+        self.show_operatos_list_btn = QPushButton('显示所有干员')
+        self.show_operatos_list_btn.setFont(QFont(Font_Style, 10))
+
+        layout.addWidget(self.show_operatos_list_btn)
 
         self.main_quit_button = QPushButton(self.tr('退出'))
         self.main_quit_button.setFont(QFont('微软雅黑', 10))
@@ -88,12 +97,20 @@ class MainInterface(QWidget):
 
     def activate_spider(self):
         # 爬取信息
-        run.run()
-        # 爬取信息后，可使用按钮进行查询
-        # self.search_birthday_according_to_operators_name_button.setEnabled(False)
-        # self.search_operators_according_to_day_button.setEnabled(False)
+        try:
+            # 启动一个新的进程独立处理爬虫业务
+            craw_process = Process(target=run.run, args=())
+            craw_process.start()
+            craw_process.join()
+            craw_process.close()
+            # 爬取信息后，可使用按钮进行查询、
+            self.search_birthday_according_to_operators_name_button.setEnabled(True)
+            self.search_operators_according_to_day_button.setEnabled(True)
 
-        # crawl_done_message = QMessageBox.information(self, '爬取信息完毕提示', '爬取信息完毕！', QMessageBox.Yes | QMessageBox.No)
+            QMessageBox.information(self, '爬取信息完毕提示', '爬取信息完毕！', QMessageBox.Yes | QMessageBox.No)
+        except Exception as e:
+            print(e)
+
 
 
 if __name__ == '__main__':
@@ -106,7 +123,8 @@ if __name__ == '__main__':
     main.search_birthday_according_to_operators_name_button.clicked.connect(search_from_name_panel.exec_)
     search_from_date_panel = SearchFromDate()
     main.search_operators_according_to_day_button.clicked.connect(search_from_date_panel.exec_)
-
+    show_all_operators_panel = ShowALLOperatorsListPanel()
+    main.show_operatos_list_btn.clicked.connect(show_all_operators_panel.exec_)
 
     sys.exit(app.exec_())
 

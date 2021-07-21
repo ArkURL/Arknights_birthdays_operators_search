@@ -23,6 +23,9 @@ class ArkSpider(scrapy.Spider):
         birthday = data.re(r"(?:【生日】|【出厂日】)[ ]?(\w*)")
         #获取干员名，以便在后续加入到item
         name = response.xpath('//div[@class="charname anicss"]/text()').extract()
+        # 对于阿米娅（近卫）即剑兔，xpath路径有所不同
+        if name[0] == '':
+            name[0] = response.xpath('//div[@class="charnamepro anicss"]/text()').extract()
         #创建item对象
         item = ArkItem()
         #获取到的是一个列表，只需要提取出其中的第一个元素
