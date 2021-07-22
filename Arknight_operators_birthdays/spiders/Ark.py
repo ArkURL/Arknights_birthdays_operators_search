@@ -13,7 +13,7 @@ class ArkSpider(scrapy.Spider):
         operators_name = response.xpath("//div[@class='smwdata']/@data-cn").extract()
         for opts in operators_name:
             next_url ='http://prts.wiki/w/'+opts #二级页面url名
-            print(next_url)
+            # print(next_url)
             yield scrapy.Request(url=next_url,callback=self.parse_item)
 
 
@@ -24,13 +24,14 @@ class ArkSpider(scrapy.Spider):
         #获取干员名，以便在后续加入到item
         name = response.xpath('//div[@class="charname anicss"]/text()').extract()
         # 对于阿米娅（近卫）即剑兔，xpath路径有所不同
-        if name[0] == '':
-            name[0] = response.xpath('//div[@class="charnamepro anicss"]/text()').extract()
+        if not name:    # 对于剑兔，上面的写法无法获取有效内容
+            name = []
+            name.append(response.xpath('//div[@class="charnamepro anicss"]/text()').extract()[0])
         #创建item对象
         item = ArkItem()
         #获取到的是一个列表，只需要提取出其中的第一个元素
         item['name'] = name[0]
         #生日或出厂日同理
         item['birthday'] = birthday[0]
+        # print(item)
         yield item
-        print(item)
