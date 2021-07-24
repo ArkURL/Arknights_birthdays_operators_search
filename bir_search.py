@@ -6,13 +6,20 @@ with open('data.pik', 'rb') as f:
     operators_list = pickle.load(f)
 """
 
-with open('/arknights.json', 'r', encoding='utf-8') as f:
-    operators_list = json.load(f)
+
+def get_operatos_list():
+    try:
+        with open('../arknights.json', 'r', encoding='utf-8') as f:
+            operators_list = json.load(f)
+            return operators_list
+    except Exception as e:
+        print(e)
 
 
 # 图形界面使用
 # 通过查询直接返回结果
 def from_operatos_get_birthdays(operator_name):
+    operators_list = get_operatos_list()
     for each in operators_list:
         if each['name'] == operator_name:
             return each['birthday']
@@ -22,6 +29,7 @@ def from_operatos_get_birthdays(operator_name):
 # 图形界面使用
 # 通过查询返回结果，注意可能有多个返回结果
 def from_date_get_operators(date):
+    operators_list = get_operatos_list()
     result = []
     for each in operators_list:
         if date == each['birthday']:
@@ -47,6 +55,7 @@ def from_date_get_test():
 
 # 通过生日查询ri天生日干员函数
 def birth_to_operators():
+    operators_list = get_operatos_list()
     prompt = "请输入你的生日(格式为xx月xx日，如12月24日，输入q返回上一级）:"
     while True:
         tag = 0
@@ -64,6 +73,7 @@ def birth_to_operators():
 
 # 查询特定干员生日函数
 def operators_to_birth():
+    operators_list = get_operatos_list()
     prompt = "请输入你要查询的干员（如：能天使，输入q返回上一级）:"
     while True:
         operator = input(prompt)
