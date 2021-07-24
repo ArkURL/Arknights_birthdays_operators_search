@@ -10,7 +10,6 @@
 ## 用法
 在pycharm等IDE中运行View/MainInterface.py，即可看到图形界面，通过图形界面进行对应操作即可。
 
----
 ## 日志
 ### ver 1.1
 #### 改动
