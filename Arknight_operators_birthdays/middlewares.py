@@ -2,6 +2,7 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import random
 
 from scrapy import signals
 
@@ -61,12 +62,18 @@ class ArknightOperatorsBirthdaysDownloaderMiddleware:
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
 
+    def __init__(self, agents):
+        self.agent = agents
+
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
+        # s = cls()
+        # crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+        # return s
+        return cls(
+            agents=crawler.settings.get('CUSTOM_USER_AGENT')
+        )
 
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
@@ -78,7 +85,8 @@ class ArknightOperatorsBirthdaysDownloaderMiddleware:
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
-        return None
+        request.headers.setdefault('User-Agent', random.choice(self.agent))
+        # return None
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.

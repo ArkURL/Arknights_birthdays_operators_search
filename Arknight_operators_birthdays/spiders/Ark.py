@@ -11,6 +11,7 @@ class ArkSpider(scrapy.Spider):
     def parse(self,response):
         #获得干员名
         operators_name = response.xpath("//div[@class='smwdata']/@data-cn").extract()
+
         for opts in operators_name:
             next_url ='http://prts.wiki/w/'+opts #二级页面url名
             # print(next_url)
@@ -18,6 +19,9 @@ class ArkSpider(scrapy.Spider):
 
 
     def parse_item(self,response):
+        # test
+        # print('现在所用的UA为：', response.request.headers['User-Agent'])
+
         data = response.xpath("//tr/td/div[@class='poem']/p/text()")
         #使用非捕获组获取普通干员的生日及机械干员们的出厂日
         birthday = data.re(r"(?:【生日】|【出厂日】)[ ]?(\w*)")

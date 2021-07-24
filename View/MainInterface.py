@@ -6,7 +6,6 @@ import sys
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QPushButton, QLabel, QMessageBox
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
-from pathlib import Path
 # import threading
 # from scrapy.utils.project import get_project_settings
 # from scrapy.crawler import CrawlerProcess
@@ -17,12 +16,7 @@ from search_from_date import SearchFromDate
 from show_all_operatos_panel import ShowALLOperatorsListPanel
 
 import Arknight_operators_birthdays.run as run
-
-Font_Style = '微软雅黑'
-Font_Size = 10
-
-Path_to_arkjson = '../arknights.json'
-arkjson = Path(Path_to_arkjson)
+from project_settings import *
 
 
 class MainInterface(QWidget):
@@ -32,7 +26,7 @@ class MainInterface(QWidget):
 
     def initUi(self):
         self.setWindowTitle(self.tr('明日方舟干员-生日查询器'))
-        # self.resize(300, 500)
+        # TODO:设置ICON
 
         layout = QVBoxLayout()
 
@@ -64,7 +58,7 @@ class MainInterface(QWidget):
 
 
         # 根据生日查询是否有对应生日的干员
-        # TODO:需要完成根据日期查询干员的功能，需要注意可能会有多个查询结果，即多个干员在同一天生日的可能性
+        # 需要完成根据日期查询干员的功能，需要注意可能会有多个查询结果，即多个干员在同一天生日的可能性
         self.search_operators_according_to_day_button = QPushButton(self.tr('查询某天生日的干员'))
         self.search_operators_according_to_day_button.setFont(QFont('微软雅黑', 10))
         # 设置按钮不可用（对应文件不存在的情况下）
@@ -76,6 +70,8 @@ class MainInterface(QWidget):
         # 添加显示干员按钮
         self.show_operatos_list_btn = QPushButton('显示所有干员')
         self.show_operatos_list_btn.setFont(QFont(Font_Style, 10))
+        if not arkjson.is_file():
+            self.show_operatos_list_btn.setEnabled(False)
 
         layout.addWidget(self.show_operatos_list_btn)
 
@@ -83,16 +79,17 @@ class MainInterface(QWidget):
         self.main_quit_button.setFont(QFont('微软雅黑', 10))
         self.main_quit_button.clicked.connect(self.close)
 
-        layout.addWidget(self.main_quit_button)
-
         # self.test_btn = QPushButton('测试')
         # self.test_btn.clicked.connect(self.call_test)
+        # self.test_btn.setFont(QFont('微软雅黑', 10))
         # layout.addWidget(self.test_btn)
+
+        layout.addWidget(self.main_quit_button)
 
         self.setLayout(layout)
 
     def call_test(self):
-        QMessageBox.information(self, '爬取信息完毕提示', '爬取信息完毕！', QMessageBox.Yes|QMessageBox.No)
+        QMessageBox.information(self, '爬取信息完毕提示', '爬取信息完毕！', QMessageBox.Ok | QMessageBox.Cancel)
 
 
     def activate_spider(self):
@@ -106,8 +103,13 @@ class MainInterface(QWidget):
             # 爬取信息后，可使用按钮进行查询、
             self.search_birthday_according_to_operators_name_button.setEnabled(True)
             self.search_operators_according_to_day_button.setEnabled(True)
+            # self.show_operatos_list_btn.setEnabled(True)
+            self.show_operatos_list_btn.setText('重新运行程序可查看所有干员')
 
-            QMessageBox.information(self, '爬取信息完毕提示', '爬取信息完毕！', QMessageBox.Yes | QMessageBox.No)
+            reply = QMessageBox.information(self, '爬取信息完毕提示', '爬取信息完毕！', QMessageBox.Ok | QMessageBox.Retry)
+            if reply == QMessageBox.Retry:
+                # 重试
+                self.activate_spider()
         except Exception as e:
             print(e)
 
