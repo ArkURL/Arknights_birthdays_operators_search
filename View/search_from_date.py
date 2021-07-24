@@ -4,8 +4,8 @@
 import sys
 
 from bir_search import from_date_get_operators
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QLineEdit, QApplication
+from PyQt5.QtGui import QFont, QIcon
 
 
 class SearchFromDate(QDialog):
@@ -15,6 +15,9 @@ class SearchFromDate(QDialog):
 
     def initUi(self):
         self.setWindowTitle('根据日期查询同一天生日的干员')
+
+        # designed by 3602638-halloween-party from Flaticon
+        self.setWindowIcon(QIcon('spider_in_web.png'))
 
         layout = QVBoxLayout()
 

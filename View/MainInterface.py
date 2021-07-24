@@ -26,7 +26,9 @@ class MainInterface(QWidget):
 
     def initUi(self):
         self.setWindowTitle(self.tr('明日方舟干员-生日查询器'))
-        # TODO:设置ICON
+
+        # designed by 3602638-halloween-party from Flaticon
+        self.setWindowIcon(QIcon('spider_in_web.png'))
 
         layout = QVBoxLayout()
 
@@ -38,12 +40,14 @@ class MainInterface(QWidget):
 
         self.tip_label = QLabel('查询功能要在爬取信息之后才可以使用哦')
         self.tip_label.setFont(QFont('微软雅黑', 9))
+        self.tip_label.setAlignment(Qt.AlignCenter)
 
         layout.addWidget(self.tip_label)
 
         self.spider_button = QPushButton(self.tr('爬取信息'))
         self.spider_button.setFont(QFont('微软雅黑', 10))
         self.spider_button.clicked.connect(self.activate_spider)
+        self.spider_button.setIcon(QIcon('spider.png'))
 
         layout.addWidget(self.spider_button)
 

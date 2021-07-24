@@ -4,7 +4,7 @@
 import sys
 
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QLineEdit, QApplication
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtCore import Qt
 import bir_search as bs
 
@@ -14,18 +14,11 @@ class SearchOperatorsBirthdays(QDialog):
         super(SearchOperatorsBirthdays, self).__init__()
         self.initUi()
 
-    def get_birthdays(self):
-        name = self.input_text.text()
-        result = bs.from_operatos_get_birthdays(name)
-        if result == False:
-            self.message_label.setText('输入干员名称有误，请输入正确的干员名')
-        else:
-            self.message_label.setText(f'干员{name}的生日是{result}')
-        self.input_text.setText('')
-
-
     def initUi(self):
         self.setWindowTitle('查询干员生日')
+
+        # designed by 3602638-halloween-party from Flaticon
+        self.setWindowIcon(QIcon('spider_in_web.png'))
 
         sobd_layout = QVBoxLayout()
 
@@ -54,9 +47,15 @@ class SearchOperatorsBirthdays(QDialog):
         sobd_layout.addWidget(self.quit_button)
 
         self.setLayout(sobd_layout)
-        # self.setWindowModality(Qt.ApplicationModal)
 
-        # self.exec()
+    def get_birthdays(self):
+        name = self.input_text.text()
+        result = bs.from_operatos_get_birthdays(name)
+        if result == False:
+            self.message_label.setText('输入干员名称有误，请输入正确的干员名')
+        else:
+            self.message_label.setText(f'干员{name}的生日是{result}')
+        self.input_text.setText('')
 
     def show_dialog(self):
         app = QApplication(sys.argv)

@@ -5,7 +5,7 @@ import sys
 import json
 
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QLineEdit, QApplication
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtCore import Qt
 
 from project_settings import *
@@ -23,6 +23,9 @@ class ShowALLOperatorsListPanel(QDialog):
             return
 
         self.setWindowTitle('显示所有干员名')
+
+        # designed by 3602638-halloween-party from Flaticon
+        self.setWindowIcon(QIcon('spider_in_web.png'))
 
         layout = QVBoxLayout()
 
