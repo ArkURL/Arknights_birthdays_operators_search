@@ -2,6 +2,7 @@
 # @Time : 2021/7/18 16:09
 # @Author : ui_none
 import sys
+import datetime
 
 from bir_search import from_date_get_operators
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QLineEdit, QApplication
@@ -49,6 +50,12 @@ class SearchFromDate(QDialog):
 
     def get_result(self):
         date = self.input_line.text()
+        if date == '今天':
+            now = datetime.datetime.now()
+            month = now.month
+            day = now.day
+            date = str(month)+'月'+str(day)+'日'
+
         result = from_date_get_operators(date)
         if len(result) == 0:
             self.result_label.setText('看来没有和你同一天生日的干员呢...')
