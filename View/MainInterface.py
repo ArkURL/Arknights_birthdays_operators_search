@@ -107,7 +107,7 @@ class MainInterface(QWidget):
             # 爬取信息后，可使用按钮进行查询、
             self.search_birthday_according_to_operators_name_button.setEnabled(True)
             self.search_operators_according_to_day_button.setEnabled(True)
-            # self.show_operatos_list_btn.setEnabled(True)
+            self.show_operatos_list_btn.setEnabled(False)
             self.show_operatos_list_btn.setText('重新运行程序可查看所有干员')
 
             reply = QMessageBox.information(self, '爬取信息完毕提示', '爬取信息完毕！', QMessageBox.Ok | QMessageBox.Retry)
