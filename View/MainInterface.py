@@ -11,9 +11,26 @@ from PyQt5.QtCore import Qt
 # from scrapy.crawler import CrawlerProcess
 from multiprocessing import Process
 
-from search_from_operators import SearchOperatorsBirthdays
-from search_from_date import SearchFromDate
-from show_all_operatos_panel import ShowALLOperatorsListPanel
+# 通过命令行启动时的设置
+# 为避免通过命令行启动时报ModuleNotFound的错误，需要手动引入当前工作目录作为环境
+import sys
+import os
+
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
+# 为避免QT弹出废弃警告，修改以下程序环境变量
+from os import environ
+
+environ["QT_DEVICE_PIXEL_RATIO"] = "0"
+environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+environ["QT_SCREEN_SCALE_FACTORS"] = "1"
+environ["QT_SCALE_FACTOR"] = "1"
+# 结束通过命令行启动程序时的设置
+
+from View.search_from_operators import SearchOperatorsBirthdays
+from View.search_from_date import SearchFromDate
+from View.show_all_operators_panel import ShowALLOperatorsListPanel
 
 import Arknight_operators_birthdays.run as run
 from project_settings import *
@@ -60,7 +77,6 @@ class MainInterface(QWidget):
 
         layout.addWidget(self.search_birthday_according_to_operators_name_button)
 
-
         # 根据生日查询是否有对应生日的干员
         # 需要完成根据日期查询干员的功能，需要注意可能会有多个查询结果，即多个干员在同一天生日的可能性
         self.search_operators_according_to_day_button = QPushButton(self.tr('查询某天生日的干员'))
@@ -95,7 +111,6 @@ class MainInterface(QWidget):
     def call_test(self):
         QMessageBox.information(self, '爬取信息完毕提示', '爬取信息完毕！', QMessageBox.Ok | QMessageBox.Cancel)
 
-
     def activate_spider(self):
         # 爬取信息
         try:
@@ -118,7 +133,6 @@ class MainInterface(QWidget):
             print(e)
 
 
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main = MainInterface()
@@ -133,4 +147,3 @@ if __name__ == '__main__':
     main.show_operatos_list_btn.clicked.connect(show_all_operators_panel.exec_)
 
     sys.exit(app.exec_())
-
