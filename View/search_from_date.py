@@ -4,9 +4,9 @@
 import sys
 import datetime
 
-from bir_search import from_date_get_operators
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QLineEdit, QApplication
 from PyQt5.QtGui import QFont, QIcon
+from .common_search import from_date_get_operators
 
 
 class SearchFromDate(QDialog):
@@ -47,14 +47,13 @@ class SearchFromDate(QDialog):
 
         self.setLayout(layout)
 
-
     def get_result(self):
         date = self.input_line.text()
         if date == '今天':
             now = datetime.datetime.now()
             month = now.month
             day = now.day
-            date = str(month)+'月'+str(day)+'日'
+            date = str(month) + '月' + str(day) + '日'
 
         result = from_date_get_operators(date)
         if len(result) == 0:

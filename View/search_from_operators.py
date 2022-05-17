@@ -6,8 +6,8 @@ import sys
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLabel, QLineEdit, QApplication
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtCore import Qt
-import bir_search as bs
-
+# import bir_search as bs
+from .common_search import from_operators_get_birthdays
 
 class SearchOperatorsBirthdays(QDialog):
     def __init__(self):
@@ -50,7 +50,7 @@ class SearchOperatorsBirthdays(QDialog):
 
     def get_birthdays(self):
         name = self.input_text.text()
-        result = bs.from_operatos_get_birthdays(name)
+        result = from_operators_get_birthdays(name)
         if result == False:
             self.message_label.setText('输入干员名称有误，请输入正确的干员名')
         else:
