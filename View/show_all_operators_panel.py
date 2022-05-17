@@ -10,6 +10,7 @@ from PyQt5.QtCore import Qt
 
 from project_settings import *
 
+# 设置显示所有干员窗口中，一行有多少个干员名
 NUMS_PER_ROW = 8
 
 
